@@ -1,17 +1,20 @@
 package com.example.noteapi.exception.handler;
 
+
 import com.example.noteapi.exception.LoginArgumentNotValidException;
 import com.example.noteapi.exception.NoteArgumentNotValidException;
 import com.example.noteapi.exception.NoteNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.security.SignatureException;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -24,7 +27,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NoteArgumentNotValidException.class)
-    public ResponseEntity<String> noteArgumentNotValidException(NoteArgumentNotValidException e) {
+    public ResponseEntity<String> handleNoteArgumentNotValidException(NoteArgumentNotValidException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 

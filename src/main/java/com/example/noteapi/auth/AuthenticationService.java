@@ -4,7 +4,6 @@ import com.example.noteapi.dto.LoginRequest;
 import com.example.noteapi.dto.LoginResponse;
 import com.example.noteapi.exception.LoginArgumentNotValidException;
 import org.springframework.security.authentication.AuthenticationManager;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +26,18 @@ public class AuthenticationService {
         }
 
         // 認証
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
 
         // JWTトークンを生成
         String token = jwtService.generateToken(loginRequest.getUsername());
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setToken(token);
-
         return loginResponse;
     }
 }
