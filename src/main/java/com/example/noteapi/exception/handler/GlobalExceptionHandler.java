@@ -4,12 +4,14 @@ package com.example.noteapi.exception.handler;
 import com.example.noteapi.exception.LoginArgumentNotValidException;
 import com.example.noteapi.exception.NoteArgumentNotValidException;
 import com.example.noteapi.exception.NoteNotFoundException;
+import com.example.noteapi.exception.UserRegistrationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,5 +68,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleMalformed(MalformedJwtException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error", "MalformedToken", "message", "JWT token is malformed"));
+    }
+
+    @ExceptionHandler(UserRegistrationException.class)
+    public ResponseEntity<String> handleUserRegistrationException(UserRegistrationException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
